@@ -1,11 +1,15 @@
-import Product from "./components/products/Product";
+import Product from "./components/product/Product";
 import "./App.css";
+import Navbar from "./components/navbar/Navbar";
+import Products from "./components/products/Products";
 
 function App() {
   return (
     <div className="App">
-      <h1>Acá va la app</h1>
-      <Product />
+      <Navbar />
+      <Products />
+
+      {/* <Product /> */}
     </div>
   );
 }
