@@ -14,6 +14,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { AddShoppingCart } from "@material-ui/icons";
 import accounting from "accounting";
 
+// import fetchProducts from "../fetch/Fetch";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -37,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Product() {
+export default function Product({
+  product: { title, category, description, id, image, price, rating },
+}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -54,21 +58,20 @@ export default function Product() {
             variant="h5"
             color="textSecondary"
           >
-            {accounting.formatMoney(50)}
+            {accounting.formatMoney(price, "$")}
           </Typography>
         }
-        title="Shoes"
-        subheader="in stock "
+        title={title}
+        subheader="in stock"
       />
-      <CardMedia
-        className={classes.media}
-        image="/static/images/cards/paella.jpg"
-        title="Paella dish"
-      />
+
+      <CardMedia className={classes.media} image={image} title={title} />
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          Running Shoes
-        </Typography>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p"
+        ></Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="Add to Cart">
@@ -92,7 +95,7 @@ export default function Product() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Running deluxe shoes</Typography>
+          <Typography paragraph>{description}</Typography>
         </CardContent>
       </Collapse>
     </Card>
