@@ -1,5 +1,4 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -9,12 +8,12 @@ import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { AddShoppingCart } from "@material-ui/icons";
 import accounting from "accounting";
-
-// import fetchProducts from "../fetch/Fetch";
+import { makeStyles } from "@material-ui/core/styles";
+import { AddShoppingCart } from "@material-ui/icons";
+import { actionTypes } from "../Reducer/Reducer";
+import { useStateValue } from "../StateProvider/StateProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,13 +39,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Product({
-  product: { title, category, description, id, image, price, rating },
+  product: { id, title, category, description, image, price, rating },
 }) {
   const classes = useStyles();
+  const [{ basket }, dispatch] = useStateValue();
   const [expanded, setExpanded] = React.useState(false);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const { rate, count } = rating;
+
+  const addToBasket = () => {
+    dispatch({
+      type: actionTypes.ADD_TO_BASKET,
+      item: {
+        id,
+        title,
+        category,
+        description,
+        image,
+        price,
+        rating,
+      },
+    });
   };
 
   return (
@@ -74,10 +90,10 @@ export default function Product({
         ></Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="Add to Cart">
-          <AddShoppingCart />
+        <IconButton aria-label="Add to Cart" onClick={addToBasket}>
+          <AddShoppingCart fontSize="large" />
         </IconButton>
-        {Array(4)
+        {Array(Math.floor(rate))
           .fill()
           .map((_, i) => (
             <p>&#11088;</p>
@@ -101,3 +117,9 @@ export default function Product({
     </Card>
   );
 }
+
+//Formé parte de un equipo para la construcción de un proyecto para "tal entidad". Yo participé en tal y tal cosa
+//Agregar referencias a proyectos que estén publicados en heroku, por ejemplo
+
+//? Con respecto a frontend y cómo dirigirme a eso
+//! Hacer una página con un flujo de login, con registro. Que las páginas se muestren o dejen de mostrarse de acuerdo a ciertas condiciones. AOC
