@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: "rotate(180deg)",
   },
+
+  // text-overflow: ellipsis;
+  // overflow: hidden;
+  // white-space: nowrap;
 }));
 
 export default function Product({

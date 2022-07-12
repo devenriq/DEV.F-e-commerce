@@ -8,8 +8,10 @@ import IconButton from "@material-ui/core/IconButton";
 import logo from "../../assets/logo2.png";
 import { ShoppingCart } from "@material-ui/icons";
 import { Badge } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateValue } from "../StateProvider/StateProvider";
+import { auth } from "../../firebase";
+import { actionTypes } from "../Reducer/Reducer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +40,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const [{ basket }, dispatch] = useStateValue();
+  const [{ basket, user }, dispatch] = useStateValue();
+  const navigate = useNavigate();
+  const handleAuth = () => {
+    if (user) {
+      auth.signOut();
+      dispatch({
+        type: actionTypes.EMPTY_BASKET,
+        basket: [],
+      });
+      dispatch({
+        type: actionTypes.SET_USER,
+        user: null,
+      });
+      navigate("/");
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -56,12 +73,12 @@ export default function Navbar() {
           </Link>
           <div className={classes.grow} />
           <Typography variant="h6" color="textPrimary" component="p">
-            Hello, Guest
+            Hello, {user ? user.email : "Guest"}
           </Typography>
           <div className={classes.button}>
             <Link to="sign-in">
-              <Button variant="outlined">
-                <strong>Sign In</strong>
+              <Button variant="outlined" onClick={handleAuth}>
+                <strong>{user ? "Sign out" : "Sign in"}</strong>
               </Button>
             </Link>
             <Link to="checkout-page">
