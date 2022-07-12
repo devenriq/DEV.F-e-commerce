@@ -121,9 +121,3 @@ export default function Product({
     </Card>
   );
 }
-
-//Formé parte de un equipo para la construcción de un proyecto para "tal entidad". Yo participé en tal y tal cosa
-//Agregar referencias a proyectos que estén publicados en heroku, por ejemplo
-
-//? Con respecto a frontend y cómo dirigirme a eso
-//! Hacer una página con un flujo de login, con registro. Que las páginas se muestren o dejen de mostrarse de acuerdo a ciertas condiciones. AOC
